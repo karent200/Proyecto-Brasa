@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 480" role="img" aria-label="Brownie con helado">
+  <defs>
+    <linearGradient id="brownie" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5A3227"/><stop offset="1" stop-color="#3A1E15"/></linearGradient>
+    <linearGradient id="ice" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E9E2D2"/></linearGradient>
+  </defs>
+  <rect width="600" height="480" fill="#F7F2EC"/>
+  <circle cx="300" cy="250" r="190" fill="#EFE4D6"/>
+  <ellipse cx="300" cy="400" rx="210" ry="34" fill="#EDEFF2"/>
+  <ellipse cx="300" cy="386" rx="170" ry="40" fill="#FFFFFF"/>
+  <path d="M170 300l60-50 100 30 100-40 40 60-40 56H210z" fill="url(#brownie)"/>
+  <path d="M170 300l60-50 100 30 100-40 40 60z" fill="#6B3A2B"/>
+  <g fill="#FFF3D0">
+    <circle cx="250" cy="286" r="6"/><circle cx="300" cy="300" r="6"/><circle cx="350" cy="284" r="6"/><circle cx="410" cy="270" r="6"/>
+  </g>
+  <g>
+    <circle cx="270" cy="220" r="46" fill="url(#ice)"/>
+    <circle cx="340" cy="212" r="40" fill="url(#ice)"/>
+    <circle cx="308" cy="180" r="38" fill="url(#ice)"/>
+  </g>
+  <path d="M270 174v18M340 172v14M308 142v16" stroke="#F2C230" stroke-width="7" stroke-linecap="round"/>
+  <path d="M250 260c14 10 34 12 52 4" stroke="#E85F00" stroke-width="7" stroke-linecap="round" fill="none"/>
+</svg>

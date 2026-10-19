@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 480" role="img" aria-label="Hamburguesa vegetariana">
+  <defs>
+    <linearGradient id="f" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E8A85B"/><stop offset="1" stop-color="#C97F33"/></linearGradient>
+    <linearGradient id="v" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8CC63F"/><stop offset="1" stop-color="#5E9B22"/></linearGradient>
+  </defs>
+  <rect width="600" height="480" fill="#F2FBEA"/>
+  <circle cx="300" cy="250" r="190" fill="#E2F3CE"/>
+  <ellipse cx="300" cy="392" rx="220" ry="40" fill="#EDEFF2"/>
+  <g transform="translate(0 -8)">
+    <path d="M140 236c0-72 72-130 160-130s160 58 160 130z" fill="url(#f)"/>
+    <ellipse cx="300" cy="236" rx="160" ry="30" fill="#D98B39"/>
+    <path d="M126 252c40-22 70 14 108-2s70-20 110-2 72 12 110-8v26c-40 20-74-8-112 6s-72 20-110 2-70-4-106 10z" fill="#7FBF4D"/>
+    <rect x="126" y="276" width="348" height="36" rx="18" fill="url(#v)"/>
+    <rect x="124" y="318" width="352" height="22" rx="11" fill="#F26B21"/>
+    <ellipse cx="300" cy="382" rx="176" ry="34" fill="#D98B39"/>
+    <path d="M124 382c0-20 80-34 176-34s176 14 176 34-80 34-176 34-176-14-176-34z" fill="url(#f)"/>
+  </g>
+</svg>

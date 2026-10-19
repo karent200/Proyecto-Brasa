@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 480" role="img" aria-label="Hamburguesa">
+  <defs>
+    <linearGradient id="f" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E8A85B"/><stop offset="1" stop-color="#C97F33"/></linearGradient>
+    <linearGradient id="p" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6B3A1F"/><stop offset="1" stop-color="#4A2412"/></linearGradient>
+  </defs>
+  <rect width="600" height="480" fill="#FFF6EC"/>
+  <circle cx="300" cy="250" r="190" fill="#FFE2C7"/>
+  <ellipse cx="300" cy="392" rx="220" ry="40" fill="#EDEFF2"/>
+  <g transform="translate(0 -8)">
+    <path d="M140 236c0-72 72-130 160-130s160 58 160 130z" fill="url(#f)"/>
+    <ellipse cx="300" cy="236" rx="160" ry="30" fill="#D98B39"/>
+    <path d="M132 250c34-16 62 10 96-2s64-16 96-2 66 10 96-6v22c-34 16-64-6-96 6s-64 16-96 2-62-4-96 8z" fill="#7FBF4D"/>
+    <rect x="128" y="272" width="344" height="34" rx="17" fill="url(#p)"/>
+    <rect x="124" y="312" width="352" height="26" rx="13" fill="#F2C230"/>
+    <path d="M120 344c0-12 10-20 22-20h316c12 0 22 8 22 20s-10 20-22 20H142c-12 0-22-8-22-20z" fill="#F26B21"/>
+    <ellipse cx="300" cy="382" rx="176" ry="34" fill="#D98B39"/>
+    <path d="M124 382c0-20 80-34 176-34s176 14 176 34-80 34-176 34-176-14-176-34z" fill="url(#f)"/>
+  </g>
+</svg>

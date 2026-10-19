@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 480" role="img" aria-label="Sándwich de pollo crocante">
+  <defs>
+    <linearGradient id="f" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E8A85B"/><stop offset="1" stop-color="#C97F33"/></linearGradient>
+    <linearGradient id="c" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F5B23F"/><stop offset="1" stop-color="#D98B1E"/></linearGradient>
+  </defs>
+  <rect width="600" height="480" fill="#FFF7E6"/>
+  <circle cx="300" cy="250" r="190" fill="#FFEAC4"/>
+  <ellipse cx="300" cy="392" rx="220" ry="40" fill="#EDEFF2"/>
+  <g transform="translate(0 -8)">
+    <path d="M150 232c0-66 66-120 150-120s150 54 150 120z" fill="url(#f)"/>
+    <ellipse cx="300" cy="232" rx="150" ry="28" fill="#D98B39"/>
+    <path d="M150 250c30 18 60-6 92 6s60 16 92 4 62-8 92 4v18c-30-14-58 4-90-6s-62-14-94-2-60-2-92-12z" fill="#7FBF4D"/>
+    <g fill="url(#c)">
+      <circle cx="210" cy="292" r="24"/><circle cx="258" cy="300" r="26"/><circle cx="310" cy="304" r="27"/><circle cx="362" cy="300" r="26"/><circle cx="410" cy="292" r="23"/>
+    </g>
+    <path d="M140 344c0-12 10-20 22-20h276c12 0 22 8 22 20s-10 20-22 20H162c-12 0-22-8-22-20z" fill="#F26B21"/>
+    <ellipse cx="300" cy="382" rx="164" ry="32" fill="#D98B39"/>
+    <path d="M136 382c0-18 74-32 164-32s164 14 164 32-74 32-164 32-164-14-164-32z" fill="url(#f)"/>
+  </g>
+</svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 480" role="img" aria-label="Malteada">
+  <defs>
+    <linearGradient id="shake" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF6E6"/><stop offset="1" stop-color="#F3E2C7"/></linearGradient>
+    <linearGradient id="cup" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFFFFF" stop-opacity="0.7"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0.15"/></linearGradient>
+  </defs>
+  <rect width="600" height="480" fill="#FFF7E6"/>
+  <circle cx="300" cy="250" r="190" fill="#FFEAC4"/>
+  <ellipse cx="300" cy="420" rx="150" ry="24" fill="#EDEFF2"/>
+  <path d="M196 160h208l-18 240a22 22 0 0 1-22 20H236a22 22 0 0 1-22-20z" fill="url(#shake)"/>
+  <path d="M200 176h200l-6 70h-188z" fill="url(#cup)"/>
+  <path d="M188 160c20-40 60-64 112-64s92 24 112 64z" fill="#FFF9EE"/>
+  <path d="M188 160c18 16 42 24 112 24s94-8 112-24z" fill="#F6E7CE"/>
+  <circle cx="300" cy="112" r="30" fill="#E85F00"/>
+  <path d="M300 82v-22" stroke="#8CC63F" stroke-width="8" stroke-linecap="round"/>
+  <path d="M300 60c-22-4-34-24-32-46 22 2 38 18 42 40z" fill="#7FBF4D"/>
+  <rect x="360" y="60" width="16" height="220" rx="8" fill="#FF6B00" transform="rotate(20 368 170)"/>
+  <circle cx="300" cy="250" r="10" fill="#F2C230"/>
+  <circle cx="270" cy="300" r="8" fill="#F2C230"/>
+  <circle cx="330" cy="330" r="8" fill="#F2C230"/>
+</svg>

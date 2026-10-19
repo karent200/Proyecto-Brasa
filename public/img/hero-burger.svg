@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 720" role="img" aria-label="Hamburguesa BRASA con acompañamientos">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFF3E8"/>
+      <stop offset="1" stop-color="#FFE2C7"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="42%" r="60%">
+      <stop offset="0" stop-color="#FF6B00" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#FF6B00" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bun" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E8A85B"/>
+      <stop offset="1" stop-color="#C97F33"/>
+    </linearGradient>
+    <linearGradient id="patty" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6B3A1F"/>
+      <stop offset="1" stop-color="#4A2412"/>
+    </linearGradient>
+    <linearGradient id="plate" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#EDEFF2"/>
+    </linearGradient>
+    <linearGradient id="fry" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFD98A"/>
+      <stop offset="1" stop-color="#F2B84B"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="900" height="720" fill="url(#bg)"/>
+  <circle cx="450" cy="320" r="330" fill="url(#glow)"/>
+
+  <ellipse cx="450" cy="560" rx="330" ry="96" fill="url(#plate)"/>
+  <ellipse cx="450" cy="548" rx="300" ry="82" fill="#F4F5F7"/>
+  <ellipse cx="450" cy="548" rx="238" ry="62" fill="#FFFFFF"/>
+
+  <g>
+    <rect x="300" y="300" width="26" height="150" rx="12" fill="url(#fry)" transform="rotate(-16 313 375)"/>
+    <rect x="330" y="288" width="26" height="160" rx="12" fill="url(#fry)" transform="rotate(-6 343 368)"/>
+    <rect x="360" y="284" width="26" height="164" rx="12" fill="url(#fry)" transform="rotate(4 373 366)"/>
+    <rect x="390" y="290" width="26" height="158" rx="12" fill="url(#fry)" transform="rotate(14 403 369)"/>
+    <rect x="420" y="300" width="26" height="150" rx="12" fill="url(#fry)" transform="rotate(24 433 375)"/>
+  </g>
+
+  <g transform="translate(60 20)">
+    <ellipse cx="560" cy="278" rx="180" ry="42" fill="#D98B39"/>
+    <path d="M380 278c0-88 80-158 180-158s180 70 180 158z" fill="url(#bun)"/>
+    <g fill="#FFF6E4">
+      <ellipse cx="470" cy="200" rx="9" ry="6" transform="rotate(-18 470 200)"/>
+      <ellipse cx="540" cy="168" rx="9" ry="6" transform="rotate(8 540 168)"/>
+      <ellipse cx="620" cy="186" rx="9" ry="6" transform="rotate(22 620 186)"/>
+      <ellipse cx="680" cy="230" rx="9" ry="6" transform="rotate(30 680 230)"/>
+      <ellipse cx="430" cy="252" rx="9" ry="6" transform="rotate(-28 430 252)"/>
+      <ellipse cx="600" cy="140" rx="8" ry="5" transform="rotate(4 600 140)"/>
+    </g>
+
+    <path d="M372 286c30-18 60 12 96-4s66-20 100-4 66 6 96-8c6 10 8 18 8 26-40 18-70-8-104 6s-66 20-100 6-64-4-96 8c-2-10-1-20 0-30z" fill="#7FBF4D"/>
+    <path d="M374 300c28-14 56 10 92-2s68-18 100-4 64 4 92-6c4 8 5 16 4 24-38 16-68-6-100 6s-66 18-100 4-62-2-92 8c-2-10-2-20 4-30z" fill="#F2C230"/>
+
+    <path d="M368 330c0-16 12-26 28-26h328c16 0 28 10 28 26s-12 26-28 26H396c-16 0-28-10-28-26z" fill="url(#patty)"/>
+    <path d="M360 372c0-14 12-24 26-24h348c14 0 26 10 26 24s-12 24-26 24H386c-14 0-26-10-26-24z" fill="#8CC63F"/>
+    <path d="M356 406c0-13 11-22 24-22h360c13 0 24 9 24 22s-11 22-24 22H380c-13 0-24-9-24-22z" fill="#F26B21"/>
+    <path d="M356 406c40 10 90 4 130-4s90-6 130 2 78 4 118-6v6c0 13-11 22-24 22H380c-13 0-24-9-24-22z" fill="#E85F00" opacity="0.5"/>
+
+    <ellipse cx="560" cy="452" rx="200" ry="46" fill="#D98B39"/>
+    <path d="M360 452c0-24 90-44 200-44s200 20 200 44-90 44-200 44-200-20-200-44z" fill="url(#bun)"/>
+  </g>
+</svg>

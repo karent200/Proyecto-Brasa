@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 480" role="img" aria-label="Papas a la francesa">
+  <defs>
+    <linearGradient id="fry" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD98A"/><stop offset="1" stop-color="#F2B84B"/></linearGradient>
+    <linearGradient id="box" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF6B00"/><stop offset="1" stop-color="#E85F00"/></linearGradient>
+  </defs>
+  <rect width="600" height="480" fill="#FFF6EC"/>
+  <circle cx="300" cy="250" r="190" fill="#FFE2C7"/>
+  <g>
+    <rect x="196" y="150" width="30" height="180" rx="14" fill="url(#fry)" transform="rotate(-14 211 240)"/>
+    <rect x="240" y="130" width="30" height="200" rx="14" fill="url(#fry)" transform="rotate(-6 255 230)"/>
+    <rect x="286" y="126" width="30" height="204" rx="14" fill="url(#fry)" transform="rotate(0 301 228)"/>
+    <rect x="332" y="132" width="30" height="198" rx="14" fill="url(#fry)" transform="rotate(8 347 231)"/>
+    <rect x="376" y="150" width="30" height="180" rx="14" fill="url(#fry)" transform="rotate(16 391 240)"/>
+  </g>
+  <path d="M150 300h300l-40 150H190z" fill="url(#box)"/>
+  <path d="M150 300h300l-10 38H160z" fill="#FF8A33"/>
+  <path d="M210 300l14 150M300 300v150M390 300l-14 150" stroke="#E85F00" stroke-width="6" opacity="0.5" fill="none"/>
+  <circle cx="300" cy="366" r="30" fill="#FFF6EC"/>
+  <path d="M300 344v44M286 366h28" stroke="#FF6B00" stroke-width="6" stroke-linecap="round"/>
+</svg>
