@@ -1,9 +1,10 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { ApiService, mensajeError } from '../../core/services/api.service';
+import { leerDetallePago, DetallePago } from '../../core/services/detalle-pago.service';
 import { PedidosService } from '../../core/services/pedidos.service';
-import { ETIQUETA_ESTADO_PAGO, Pedido } from '../../models/pedido.model';
+import { ETIQUETA_ESTADO_PAGO, Pago, Pedido } from '../../models/pedido.model';
 import { PrecioCopPipe } from '../../shared/pipes/precio-cop.pipe';
 
 /**
@@ -30,6 +31,20 @@ import { PrecioCopPipe } from '../../shared/pipes/precio-cop.pipe';
             Pedido {{ pedido()!.numero }} · {{ etiquetas[pedido()!.estadoPago] }}
             @if (pedido()!.saldo > 0) { · Saldo pendiente {{ pedido()!.saldo | precioCop }} }
           </p>
+          @if (pagoReciente()) {
+            <div class="mt-5 rounded-xl border border-brasa-border bg-brasa-gray-light px-4 py-3 text-left text-sm" role="status">
+              <p class="font-semibold text-brasa-black">Pagaste {{ pagoReciente()!.monto | precioCop }}</p>
+              @if ((detalle()?.productos?.length ?? 0) > 0) {
+                <p class="mt-1 text-xs text-brasa-muted">Por: {{ detalle()!.productos.join(', ') }}</p>
+              }
+            </div>
+          }
+          @if (pedido()!.pagado > 0) {
+            <p class="mt-3 text-xs text-brasa-muted">
+              Pagado {{ pedido()!.pagado | precioCop }} de {{ pedido()!.resumen.total | precioCop }} ·
+              @if (pedido()!.saldo > 0) { faltan {{ pedido()!.saldo | precioCop }} } @else { cuenta saldada }
+            </p>
+          }
           @if (pedido()!.estadoPago === 'PENDIENTE') {
             <p class="mt-3 text-xs text-brasa-muted">Si el banco aún está procesando el pago, este estado se actualizará solo en unos minutos.</p>
           }
@@ -58,10 +73,23 @@ export class PagoResultadoComponent implements OnInit {
   protected readonly pedido = signal<Pedido | null>(null);
   protected readonly error = signal('');
   protected readonly etiquetas = ETIQUETA_ESTADO_PAGO;
+  protected readonly pagos = signal<Pago[]>([]);
+  protected readonly detalle = signal<DetallePago | null>(null);
+
+  /** El monto y el estado vienen del servidor; el detalle de productos es solo contexto local. */
+  protected readonly pagoReciente = computed(() => {
+    const referencia = this.detalle()?.referencia;
+    return referencia ? this.pagos().find((p) => p.referencia === referencia) ?? null : null;
+  });
 
   async ngOnInit(): Promise<void> {
+    const id = this.pedidoId();
+    if (id) {
+      this.detalle.set(leerDetallePago(id));
+      this.pedidos.pagos(id).then((lista) => this.pagos.set(lista)).catch(() => undefined);
+    }
     try {
-      if (!this.pedidoId()) throw new Error('Falta el pedido');
+      if (!id) throw new Error('Falta el pedido');
       if (this.id()) {
         this.pedido.set(
           await firstValueFrom(

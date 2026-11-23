@@ -4,6 +4,8 @@ import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { LucideArrowLeft, LucideCreditCard, LucideFileText, LucideInfo, LucideMinus, LucidePlus, LucideSmartphone, LucideUsers } from '@lucide/angular';
 import { ApiService, mensajeError } from '../../core/services/api.service';
+import { guardarDetallePago } from '../../core/services/detalle-pago.service';
+import { Pago } from '../../models/pedido.model';
 import { NotificacionesService } from '../../core/services/notificaciones.service';
 import { PedidosService } from '../../core/services/pedidos.service';
 import { SolicitudesMeseroService } from '../../core/services/solicitudes-mesero.service';
@@ -83,7 +85,7 @@ const MONTO_MINIMO = 1500;
               </header>
               <div class="flex flex-col gap-4 p-6">
                 <div class="flex flex-wrap gap-2" role="group" aria-label="Forma de dividir la cuenta">
-                  @for (d of divisiones; track d.id) {
+                  @for (d of divisiones(); track d.id) {
                     <button type="button" class="rounded-xl border px-4 py-2 text-sm font-semibold transition"
                       [class]="modo() === d.id ? 'border-brasa-orange bg-brasa-orange/10 text-brasa-black' : 'border-brasa-border text-brasa-muted hover:text-brasa-black'"
                       [attr.aria-pressed]="modo() === d.id" (click)="modo.set(d.id)">
@@ -91,6 +93,12 @@ const MONTO_MINIMO = 1500;
                     </button>
                   }
                 </div>
+
+                @if (pedido()!.pagado > 0) {
+                  <p class="text-xs text-brasa-muted">
+                    Ya hay abonos en esta cuenta. Marca solo lo que consumiste tú para no cubrir lo de otros.
+                  </p>
+                }
 
                 @if (modo() === 'igual') {
                   <div class="flex items-center gap-4">
@@ -271,12 +279,18 @@ export class CheckoutComponent {
     { id: 'linea', titulo: 'Pagar en línea', descripcion: 'Tarjeta, Nequi, PSE o Bancolombia a través de Wompi' },
     { id: 'mesa', titulo: 'Efectivo o datáfono', descripcion: 'El mesero te cobra en la mesa' },
   ];
-  protected readonly divisiones: { id: ModoDivision; titulo: string }[] = [
-    { id: 'total', titulo: 'Todo el saldo' },
+  protected readonly divisiones = computed<{ id: ModoDivision; titulo: string }[]>(() => [
+    { id: 'total', titulo: this.pedido()?.pagado ? 'Pagar todo lo que falta' : 'Todo el saldo' },
     { id: 'igual', titulo: 'Partes iguales' },
     { id: 'consumo', titulo: 'Por lo que consumí' },
-  ];
+  ]);
   protected readonly propinas = [0, 5, 10, 15];
+
+  /** Productos marcados por el cliente, para el recibo de la pasarela. */
+  protected readonly productosMios = computed(() => {
+    const p = this.pedido();
+    return p ? p.items.filter((i) => this.seleccionados().has(i.id)).map((i) => `${i.cantidad} × ${i.nombre}`) : [];
+  });
 
   protected readonly parteIgual = computed(() => {
     const p = this.pedido();
@@ -316,6 +330,10 @@ export class CheckoutComponent {
       this.cargando.set(true);
       this.pedidos
         .cargar(id)
+        .then((p) => {
+          // Con abonos previos, nadie debe caer en "pagar todo" por accidente.
+          if (p.pagado > 0) this.modo.set('consumo');
+        })
         .catch((e) => this.error.set(mensajeError(e, 'No encontramos ese pedido en este dispositivo.')))
         .finally(() => this.cargando.set(false));
     });
@@ -360,6 +378,15 @@ export class CheckoutComponent {
 
   protected async pagar(): Promise<void> {
     if (!this.puedePagar() || this.procesando()) return;
+    const pedido = this.pedido()!;
+    if (this.modo() === 'total' && pedido.pagado > 0) {
+      const monto = this.montoAPagar().toLocaleString('es-CO');
+      const acepta = confirm(
+        `Vas a pagar todo lo que falta de la mesa ($${monto}). ` +
+          'Si solo quieres pagar lo tuyo, elige "Por lo que consumí". ¿Continuar?',
+      );
+      if (!acepta) return;
+    }
     this.procesando.set(true);
     this.error.set('');
     try {
@@ -369,8 +396,13 @@ export class CheckoutComponent {
         return;
       }
       const r = await firstValueFrom(
-        this.api.post<{ urlCheckout: string }>('/pagos', { pedidoId: this.id(), monto: this.montoAPagar() }, this.pedidos.cabeceras(this.id())),
+        this.api.post<{ pago: Pago; urlCheckout: string }>('/pagos', { pedidoId: this.id(), monto: this.montoAPagar() }, this.pedidos.cabeceras(this.id())),
       );
+      guardarDetallePago(this.id(), {
+        referencia: r.pago.referencia,
+        monto: r.pago.monto,
+        productos: this.modo() === 'consumo' ? this.productosMios() : [],
+      });
       // Solo se redirige a la pasarela de Wompi o al simulador del propio sitio.
       const destino = new URL(r.urlCheckout);
       if (destino.origin !== 'https://checkout.wompi.co' && destino.origin !== location.origin) {

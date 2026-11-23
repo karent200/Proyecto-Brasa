@@ -1,13 +1,13 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { Subscription, firstValueFrom } from 'rxjs';
-import { Pedido } from '../../models/pedido.model';
+import { Pago, Pedido } from '../../models/pedido.model';
 import { ApiService } from './api.service';
 import { AuthService } from './auth.service';
 import { CarritoService } from './carrito.service';
 import { MesaService } from './mesa.service';
 import { TiempoRealService } from './tiempo-real.service';
 
-export type { Pedido } from '../../models/pedido.model';
+export type { Pago, Pedido } from '../../models/pedido.model';
 
 /** Pedidos que este navegador puede consultar: id + token de seguimiento entregado por el servidor. */
 interface PedidoSeguido {
@@ -86,6 +86,9 @@ export class PedidosService {
           this.conectado.set(false);
         } else if (evento.tipo === 'pedido.actualizado') {
           this.pedidoActual.set(evento.datos as Pedido);
+        } else if (evento.tipo === 'pago.actualizado') {
+          // El evento solo avisa; el saldo y el estado se releen del servidor.
+          this.cargar(id).catch(() => undefined);
         }
       },
       error: () => this.conectado.set(false),
@@ -112,6 +115,11 @@ export class PedidosService {
 
   async guardarFactura(id: string, datos: Record<string, unknown>): Promise<void> {
     await firstValueFrom(this.api.post(`/pedidos/${id}/factura`, datos, this.cabeceras(id)));
+  }
+
+  /** Pagos del pedido, visibles para cualquiera que tenga su enlace/token. */
+  async pagos(id: string): Promise<Pago[]> {
+    return firstValueFrom(this.api.get<Pago[]>(`/pagos/pedido/${encodeURIComponent(id)}`, undefined, this.cabeceras(id)));
   }
 
   /** Historial: los pedidos de la cuenta (si hay sesión de cliente) más los seguidos en este navegador. */

@@ -63,6 +63,20 @@ export interface Pedido {
   actualizadoEn: string;
 }
 
+/** Pago registrado por la API (un pedido puede tener varios). */
+export interface Pago {
+  id: string;
+  pedidoId: string;
+  proveedor: string;
+  referencia: string;
+  monto: number;
+  moneda: string;
+  estado: 'PENDIENTE' | 'APROBADO' | 'RECHAZADO' | 'ANULADO' | 'ERROR' | 'REEMBOLSO_SOLICITADO' | 'REEMBOLSADO';
+  metodo: string | null;
+  creadoEn: string;
+  actualizadoEn: string;
+}
+
 export interface Cotizacion extends ResumenPedido {
   cupon: string | null;
   descuentoPorcentaje: number;

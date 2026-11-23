@@ -1,10 +1,11 @@
 import { Component, OnDestroy, computed, effect, inject, input, signal } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { LucideCheck, LucideChefHat, LucideClock, LucideMapPin, LucideStar, LucideUtensilsCrossed, LucideCreditCard, LucideX } from '@lucide/angular';
 import { PedidosService } from '../../core/services/pedidos.service';
 import { mensajeError } from '../../core/services/api.service';
 import { NotificacionesService } from '../../core/services/notificaciones.service';
-import { EstadoPedido, ETIQUETA_ESTADO_PAGO } from '../../models/pedido.model';
+import { EstadoPedido, ETIQUETA_ESTADO_PAGO, Pago } from '../../models/pedido.model';
 import { PrecioCopPipe } from '../../shared/pipes/precio-cop.pipe';
 import { CalificarPedidoComponent } from '../../shared/components/calificar-pedido/calificar-pedido.component';
 
@@ -19,7 +20,7 @@ const ORDEN: EstadoPedido[] = ['PENDIENTE', 'CONFIRMADO', 'EN_PREPARACION', 'LIS
 
 @Component({
   selector: 'app-seguimiento',
-  imports: [RouterLink, PrecioCopPipe, CalificarPedidoComponent, LucideCheck, LucideChefHat, LucideClock, LucideMapPin, LucideStar, LucideUtensilsCrossed, LucideCreditCard, LucideX],
+  imports: [RouterLink, DatePipe, PrecioCopPipe, CalificarPedidoComponent, LucideCheck, LucideChefHat, LucideClock, LucideMapPin, LucideStar, LucideUtensilsCrossed, LucideCreditCard, LucideX],
   template: `
     <section class="mx-auto max-w-[1100px] px-5 py-10 md:px-10">
       @if (cargando()) {
@@ -103,6 +104,34 @@ const ORDEN: EstadoPedido[] = ['PENDIENTE', 'CONFIRMADO', 'EN_PREPARACION', 'LIS
           </div>
 
           <div class="flex flex-col gap-6">
+            <div class="rounded-2xl border border-brasa-border bg-white shadow-card">
+              <header class="border-b border-brasa-border px-6 py-4">
+                <h2 class="font-heading text-base font-semibold text-brasa-black">Cuenta de la mesa</h2>
+              </header>
+              <div class="px-6 py-5">
+                <div class="h-2 overflow-hidden rounded-full bg-brasa-gray-light" role="img" [attr.aria-label]="'Cuenta pagada al ' + porcentajePagado() + '%'">
+                  <div class="h-full rounded-full bg-green-500 transition-all" [style.width.%]="porcentajePagado()"></div>
+                </div>
+                <dl class="mt-4 space-y-2 text-sm">
+                  <div class="flex justify-between"><dt class="text-brasa-muted">Total</dt><dd>{{ pedido()!.resumen.total | precioCop }}</dd></div>
+                  <div class="flex justify-between"><dt class="text-brasa-muted">Pagado</dt><dd class="font-semibold text-green-700">{{ pedido()!.pagado | precioCop }}</dd></div>
+                  <div class="flex justify-between"><dt class="text-brasa-muted">Falta</dt><dd class="font-semibold">{{ pedido()!.saldo | precioCop }}</dd></div>
+                </dl>
+                @if (pagosAprobados().length) {
+                  <ul class="mt-4 space-y-1 border-t border-brasa-border pt-3 text-xs text-brasa-muted">
+                    @for (pago of pagosAprobados(); track pago.id) {
+                      <li class="flex justify-between gap-3">
+                        <span>{{ pago.creadoEn | date: 'd MMM, h:mm a' }} · {{ etiquetaMetodo(pago) }}</span>
+                        <span class="shrink-0 font-semibold text-brasa-black">{{ pago.monto | precioCop }}</span>
+                      </li>
+                    }
+                  </ul>
+                } @else {
+                  <p class="mt-4 border-t border-brasa-border pt-3 text-xs text-brasa-muted">Aún no hay pagos registrados.</p>
+                }
+              </div>
+            </div>
+
             <div class="rounded-2xl border border-brasa-border bg-white shadow-card">
               <header class="border-b border-brasa-border px-6 py-4">
                 <h2 class="font-heading text-base font-semibold text-brasa-black">Información</h2>
@@ -219,6 +248,7 @@ export class SeguimientoComponent implements OnDestroy {
   protected readonly cancelando = signal(false);
   protected readonly mostrarCalificar = signal(false);
   protected readonly etiquetaPago = ETIQUETA_ESTADO_PAGO;
+  protected readonly pagos = signal<Pago[]>([]);
   private yaOfrecioCalificar = false;
 
   protected readonly pasos: Paso[] = [
@@ -239,6 +269,13 @@ export class SeguimientoComponent implements OnDestroy {
     return !!p && p.estado !== 'CANCELADO' && p.saldo > 0;
   });
 
+  protected readonly pagosAprobados = computed(() => this.pagos().filter((p) => p.estado === 'APROBADO'));
+
+  protected readonly porcentajePagado = computed(() => {
+    const p = this.pedido();
+    return p && p.resumen.total > 0 ? Math.min(100, Math.round((p.pagado / p.resumen.total) * 100)) : 0;
+  });
+
   constructor() {
     effect(() => {
       const id = this.id() ?? this.pedidos.ultimoId();
@@ -251,6 +288,15 @@ export class SeguimientoComponent implements OnDestroy {
         return;
       }
       this.abrir(id);
+    });
+
+    // Cada abono cambia "pagado" y vuelve a consultar los pagos del pedido.
+    effect(() => {
+      const id = this.id() ?? this.pedidos.ultimoId();
+      const pagado = this.pedido()?.pagado ?? 0;
+      void pagado; // mantiene el efecto suscrito a cada abono
+      if (!id) return;
+      this.pedidos.pagos(id).then((lista) => this.pagos.set(lista)).catch(() => this.pagos.set([]));
     });
 
     // Al entregarse el pedido se ofrece calificarlo una sola vez.
@@ -278,6 +324,11 @@ export class SeguimientoComponent implements OnDestroy {
     } finally {
       this.cargando.set(false);
     }
+  }
+
+  protected etiquetaMetodo(pago: Pago): string {
+    if (pago.proveedor === 'efectivo') return 'En mesa';
+    return pago.metodo ? `En línea · ${pago.metodo}` : 'En línea';
   }
 
   protected completado(paso: Paso): boolean {
