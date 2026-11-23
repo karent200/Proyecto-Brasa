@@ -11,10 +11,11 @@ const ENLACE = 'rounded-lg px-4 py-2 text-sm font-medium text-brasa-muted transi
 
 /**
  * Encabezado según el rol (el servidor valida igualmente cada acción):
- * - Cliente: menú, seguimiento, sus pedidos, su mesa y el carrito.
+ * - Cliente: menú, seguimiento, sus pedidos, su mesa y el carrito, sin cuenta ni inicio de sesión.
  * - Cocina: solo su pantalla (no toma pedidos ni cobra).
  * - Mesero: menú y carrito solo mientras toma un pedido para una mesa.
- * A la derecha, como en la mayoría de sitios: carrito y, en la esquina, Ingresar o el perfil.
+ * El acceso del personal está en el footer ("Personal"); aquí solo mostramos el perfil
+ * cuando ese personal ya inició sesión, para no ofrecer cuentas a los clientes.
  */
 @Component({
   selector: 'app-site-header',
@@ -78,8 +79,8 @@ const ENLACE = 'rounded-lg px-4 py-2 text-sm font-medium text-brasa-muted transi
             </a>
           }
 
-          <!-- Esquina derecha: Ingresar o el perfil con la inicial del nombre. -->
-          @if (auth.autenticado()) {
+          <!-- Solo el personal ve su perfil aquí; los clientes no ven accesos de cuenta. -->
+          @if (auth.esPersonal()) {
             <a
               routerLink="/cuenta"
               class="inline-flex items-center gap-2 rounded-full border border-brasa-border py-1 pl-1 pr-1 text-sm font-medium text-brasa-black transition hover:border-brasa-orange md:pr-3"
@@ -87,18 +88,6 @@ const ENLACE = 'rounded-lg px-4 py-2 text-sm font-medium text-brasa-muted transi
             >
               <span class="flex h-9 w-9 items-center justify-center rounded-full bg-brasa-black font-heading text-sm font-bold text-white" aria-hidden="true">{{ inicial() }}</span>
               <span class="hidden max-w-32 truncate md:inline">{{ auth.usuario()?.nombre }}</span>
-            </a>
-          } @else {
-            <a
-              routerLink="/login"
-              class="inline-flex items-center gap-2 rounded-xl border border-brasa-black px-3 py-2 text-sm font-semibold text-brasa-black transition hover:bg-brasa-black hover:text-white"
-              aria-label="Ingresar"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="12" cy="8" r="4" />
-                <path d="M4 21a8 8 0 0 1 16 0" />
-              </svg>
-              <span class="hidden sm:inline">Ingresar</span>
             </a>
           }
         </div>

@@ -24,15 +24,6 @@ import { LogoBrasaComponent } from '../logo-brasa/logo-brasa.component';
           </ul>
         </nav>
 
-        <nav aria-label="Cuenta">
-          <h2 class="font-heading text-sm font-semibold text-brasa-black">Tu cuenta</h2>
-          <ul class="mt-3 space-y-2 text-sm text-brasa-muted">
-            <li><a routerLink="/login" class="hover:text-brasa-orange">Ingresar</a></li>
-            <li><a routerLink="/registro" class="hover:text-brasa-orange">Crear cuenta</a></li>
-            <li><a routerLink="/recuperar" class="hover:text-brasa-orange">Recuperar contraseña</a></li>
-          </ul>
-        </nav>
-
         <div>
           <h2 class="font-heading text-sm font-semibold text-brasa-black">Personal</h2>
           <ul class="mt-3 space-y-2 text-sm text-brasa-muted">

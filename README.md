@@ -65,7 +65,8 @@ npm start                   # Web en http://localhost:4200
 | Administrador | `admin@brasa.local` | `/admin` |
 | Cocina | `cocina@brasa.local` | `/cocina` |
 | Mesero | `mesero@brasa.local` | `/mesero` |
-| Cliente | se registra en `/registro` (opcional: se puede pedir sin cuenta) | `/menu` |
+
+Los clientes **no necesitan cuenta**: escanean el QR, piden, siguen el pedido y pagan desde su dispositivo. El historial (`/historial`) se guarda en el navegador. El enlace de acceso del personal está en el footer (**Personal**); el registro y la recuperación de contraseña solo están disponibles por URL directa para el personal.
 
 Las contraseñas iniciales son las de `SEMILLA_ADMIN_PASSWORD` y `SEMILLA_DEMO_PASSWORD`. Para cambiar una:
 

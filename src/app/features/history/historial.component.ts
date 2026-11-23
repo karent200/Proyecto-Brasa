@@ -3,7 +3,6 @@ import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LucideClock, LucideReceiptText } from '@lucide/angular';
 import { PedidosService } from '../../core/services/pedidos.service';
-import { AuthService } from '../../core/services/auth.service';
 import { mensajeError } from '../../core/services/api.service';
 import { ETIQUETA_ESTADO, ETIQUETA_ESTADO_PAGO, Pedido } from '../../models/pedido.model';
 import { PrecioCopPipe } from '../../shared/pipes/precio-cop.pipe';
@@ -17,12 +16,7 @@ import { PrecioCopPipe } from '../../shared/pipes/precio-cop.pipe';
         <div>
           <h1 class="font-heading text-3xl font-bold tracking-tight text-brasa-black sm:text-4xl">Historial de pedidos</h1>
           <p class="mt-2 text-sm text-brasa-muted sm:text-base">
-            @if (auth.tieneRol('CLIENTE')) {
-              Los pedidos de tu cuenta y los hechos desde este dispositivo
-            } @else {
-              Pedidos hechos desde este dispositivo ·
-              <a routerLink="/registro" class="font-semibold text-brasa-orange hover:underline">crea una cuenta</a> para verlos en cualquier lugar
-            }
+            Pedidos hechos desde este dispositivo · sin necesidad de cuenta
           </p>
         </div>
         <a routerLink="/menu" class="rounded-xl bg-brasa-orange px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brasa-orange-dark">Ir al menú</a>
@@ -68,7 +62,6 @@ import { PrecioCopPipe } from '../../shared/pipes/precio-cop.pipe';
   `,
 })
 export class HistorialComponent {
-  protected readonly auth = inject(AuthService);
   private readonly pedidos = inject(PedidosService);
 
   protected readonly lista = signal<Pedido[]>([]);

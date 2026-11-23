@@ -24,7 +24,7 @@ function rutaSegura(valor: string | undefined): string | null {
     <section class="px-5">
       <form class="${TARJETA}" (ngSubmit)="enviar()" #f="ngForm">
         <h1 class="font-heading text-2xl font-bold text-brasa-black">Iniciar sesión</h1>
-        <p class="mt-1 text-sm text-brasa-muted">Clientes, meseros, cocina y administración.</p>
+        <p class="mt-1 text-sm text-brasa-muted">Acceso del personal: cocina, meseros y administración.</p>
         <label class="mt-6 block space-y-1 text-sm">
           <span class="font-medium">Correo electrónico</span>
           <input class="${CAMPO}" type="email" name="email" autocomplete="username" required [(ngModel)]="email" />
@@ -37,10 +37,9 @@ function rutaSegura(valor: string | undefined): string | null {
           <p class="mt-4 rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">{{ error() }}</p>
         }
         <button class="${BOTON} mt-6" type="submit" [disabled]="enviando() || f.invalid">{{ enviando() ? 'Ingresando...' : 'Ingresar' }}</button>
-        <div class="mt-5 flex justify-between text-sm">
+        <p class="mt-5 text-sm">
           <a routerLink="/recuperar" class="text-brasa-muted hover:text-brasa-orange">¿Olvidaste tu contraseña?</a>
-          <a routerLink="/registro" class="font-semibold text-brasa-orange">Crear cuenta</a>
-        </div>
+        </p>
         @if (keycloakDisponible()) {
           <div class="mt-6 flex items-center gap-3 text-xs text-brasa-muted" aria-hidden="true">
             <span class="h-px flex-1 bg-brasa-border"></span> o <span class="h-px flex-1 bg-brasa-border"></span>
